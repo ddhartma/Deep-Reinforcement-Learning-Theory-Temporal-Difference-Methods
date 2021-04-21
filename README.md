@@ -21,16 +21,23 @@
 - Deep reinforcement learning refers to approaches where the knowledge is represented with a deep neural network
 
 ## Temporal-Difference Methods - Overview <a name="tdm_overview"></a>
+- Whereas Monte Carlo (MC) prediction methods must wait until the end of an episode to update the value function estimate, temporal-difference (TD) methods update the value function after every time step.
 
 ## TD Control <a name="TD_control"></a>
 
 ## TD Control: Sarsa <a name="sarsa"></a>
+- **Sarsa(0)** (or **Sarsa**) is an **on-policy TD control** method. It is guaranteed to converge to the optimal action-value function **q∗**, as long as the step-size parameter **α** is sufficiently small and **ϵ** is chosen to satisfy the **Greedy in the Limit with Infinite Exploration (GLIE)** conditions.
 
 ## TD Control: Sarsamax  (or Q-Learning) <a name="sarsamax"></a>
+- **Sarsamax** (or **Q-Learning**) is an **off-policy TD control** method. It is guaranteed to converge to the optimal action value function **q∗**, under the same conditions that guarantee convergence of the Sarsa control algorithm.
 
 ## TD Control: Expected Sarsa <a name="expected_sarsa"></a>
+- Expected Sarsa is an **on-policy TD control** method. It is guaranteed to converge to the optimal action value function **q∗**, under the same conditions that guarantee convergence of Sarsa and Sarsamax.
 
 ## Analyzing Performance <a name="analyze_perform"></a>
+- On-policy TD control methods (like Expected Sarsa and Sarsa) have better online performance than off-policy TD control methods (like Q-learning).
+- Expected Sarsa generally achieves better performance than Sarsa.
+
 
 ## Setup Instructions <a name="Setup_Instructions"></a>
 The following is a brief set of instructions on setting up a cloned repository.
