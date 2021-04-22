@@ -1,5 +1,6 @@
-[image1]: assets/grid_world.png "image1"
-
+[image1]: assets/grid_world_example.png "image1"
+[image2]: assets/td_control_sarsa_1.png "image2"
+[image3]: assets/sarsa_pseudocode.png "image3"
 
 # Deep Reinforcement Learning Theory - Temporal Difference Methods
 
@@ -21,11 +22,53 @@
 - Deep reinforcement learning refers to approaches where the knowledge is represented with a deep neural network
 
 ## Temporal-Difference Methods - Overview <a name="tdm_overview"></a>
-- Whereas Monte Carlo (MC) prediction methods must wait until the end of an episode to update the value function estimate, temporal-difference (TD) methods update the value function after every time step.
+- Real life is far from an episodic task 
+- Whereas Monte Carlo (MC) prediction methods must wait until the end of an episode to calculate the return and to update the value function estimate, **temporal-difference (TD) methods update the value function after every time step**.
+- For example **chess**: Agent will at every move be able to estimate the probability of winning the game. Monte Carlo instead needs the crah to learn anything.
+- For example **self-driving cars**: Agent will be able to estimate if it's likely to crash
+- TD control can be used for contnuous and episodic tasks
+- This lesson covers material in Chapter 6 (especially 6.1-6.6) of the [Reinforcement Learning Textbook](https://s3-us-west-1.amazonaws.com/udacity-drlnd/bookdraft2018.pdf).
 
 ## TD Control <a name="TD_control"></a>
+- Remember the Constant-α MC control method:
+
+    ![image1]
 
 ## TD Control: Sarsa <a name="sarsa"></a>
+- Now let's update the Q-Table at the same time as the episode is unfolding.
+The idea: 
+- The current estimate for the value of selecting ***action right***
+and ***state*** one is pulled from the Q-Table, it's just 6.
+So, what about the alternative estimate?
+- After we got the reward of negative one,
+we ended up in ***state two*** and selected ***action right***.
+- The Q-Table actually already has an estimate for the return: It's just the estimated action value for ***state two*** and ***action right***.
+- So, our alternative estimate can just be ***7 = -1 + 8*** which is the value of the next state action pair.
+- Then, just like in the Monte Carlo case, we can use this alternative estimate to update the Q-Table with a value between 6 and 7 depending on alpha. For alpha = 0.2 we get 6.2.
+- We repeat the same process for the next time step where we update the entry in the Q-Table for ***state two*** and ***action right*** by just using the alternative estimate.
+- The alternative estimate is just the reward we received
+plus the currently estimated value of the next state action pair.
+- For alpha = 0.2 we get 8.2.
+
+    ![image2]
+
+### Difference to MC?
+- Instead of updating the Q-table **at the end of the epside** we update the Q-table **at every time step**.
+- TD method can be used for episodic and continuous tasks.
+
+### Pseudocode
+- This is the Pseudocode for Sarsa
+
+    ![image3]
+
+- In the algorithm, the number of episodes the agent collects is equal to **num_episodes**. 
+- For every time step **t ≥ 0**, the agent:
+
+    - takes the action **A<sub>t</sub>** (from the current state **S<sub>t</sub>**) that is **ϵ**-greedy with respect to the Q-table,
+    - receives the reward **R<sub>t+1</sub>** and next state **S<sub>t+1</sub>**,
+    - chooses the next action **A<sub>t+1</sub>** (from the next state **S<sub>t+1</sub>**) that is **ϵ**-greedy with respect to the Q-table,
+    - uses the information in the tuple (**S<sub>t</sub>**, **A<sub>t</sub>**, **R<sub>t+1</sub>**, **S<sub>t+1</sub>**, **A<sub>t+1</sub>**) to update the entry **Q(S<sub>t</sub>,A<sub>t</sub>)** in the Q-table corresponding to the current state **S<sub>t</sub>** and the action **A<sub>t</sub>**.
+
 - **Sarsa(0)** (or **Sarsa**) is an **on-policy TD control** method. It is guaranteed to converge to the optimal action-value function **q∗**, as long as the step-size parameter **α** is sufficiently small and **ϵ** is chosen to satisfy the **Greedy in the Limit with Infinite Exploration (GLIE)** conditions.
 
 ## TD Control: Sarsamax  (or Q-Learning) <a name="sarsamax"></a>
