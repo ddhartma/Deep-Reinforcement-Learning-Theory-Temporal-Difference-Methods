@@ -489,13 +489,27 @@ plus the currently estimated value of the next state action pair.
     ```
     ![image16]
 
-
-
-
 ## Analyzing Performance <a name="analyze_perform"></a>
+### Similarities
+All of the TD control methods we have examined (Sarsa, Sarsamax, Expected Sarsa) converge to the optimal action-value function **q∗** (and so yield the optimal policy **π∗**) if:
+
+    - the value of **ϵ** decays in accordance with the GLIE conditions, and
+    - the step-size parameter **α** is sufficiently small.
+
+### Differences
+- The differences between these algorithms are summarized below:
+
+    - Sarsa and Expected Sarsa are both on-policy TD control algorithms. In this case, the same (ϵ-greedy) policy that is evaluated and improved is also used to select actions.
+    - Sarsamax is an off-policy method, where the (greedy) policy that is evaluated and improved is different from the (ϵ-greedy) policy that is used to select actions.
+    - On-policy TD control methods (like Expected Sarsa and Sarsa) have better online performance than off-policy TD control methods (like Sarsamax).
+    - Expected Sarsa generally achieves better performance than Sarsa.
+
+- Check  Chapter 6 of the [Reinforcement Learning Textbook](https://s3-us-west-1.amazonaws.com/udacity-drlnd/bookdraft2018.pdf) (especially sections 6.4-6.6).
+
+As an optional exercise to deepen your understanding, you are encouraged to reproduce Figure 6.4. (Note that this exercise is optional!)
+
 - On-policy TD control methods (like Expected Sarsa and Sarsa) have better online performance than off-policy TD control methods (like Q-learning).
 - Expected Sarsa generally achieves better performance than Sarsa.
-
 
 ## Setup Instructions <a name="Setup_Instructions"></a>
 The following is a brief set of instructions on setting up a cloned repository.
