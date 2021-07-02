@@ -22,9 +22,9 @@
 - [Temporal-Difference Methods](#tdm_overview)
 - [TD Control](#TD_control)  
     - [Sarsa](#sarsa)
-    - [Sarsamax  (or Q-Learning)](#sarsamax) 
+    - [Sarsamax  (or Q-Learning)](#sarsamax)
     - [Expected Sarsa](#expected_sarsa)
-- [TD Control: Theory and Practice](#TD_control_theory_practice) 
+- [TD Control: Theory and Practice](#TD_control_theory_practice)
 - [OpenAI Gym: CliffWalkingEnv](#CliffWalkingEnv)
 - [Analyzing Performance](#analyze_perform)    
 - [Setup Instructions](#Setup_Instructions)
@@ -37,7 +37,7 @@
 - Deep reinforcement learning refers to approaches where the knowledge is represented with a deep neural network
 
 ## Temporal-Difference Methods - Overview <a name="tdm_overview"></a>
-- Real life is far from an episodic task 
+- Real life is far from an episodic task
 - Whereas Monte Carlo (MC) prediction methods must wait until the end of an episode to calculate the return and to update the value function estimate, **temporal-difference (TD) methods update the value function after every time step**.
 - For example **chess**: Agent will at every move be able to estimate the probability of winning the game. Monte Carlo instead needs the crah to learn anything.
 - For example **self-driving cars**: Agent will be able to estimate if it's likely to crash
@@ -51,7 +51,7 @@
 
 ## TD Control: Sarsa <a name="sarsa"></a>
 - Now let's update the Q-Table at the same time as the episode is unfolding.
-The idea: 
+The idea:
 - The current estimate for the value of selecting ***action right***
 and ***state*** one is pulled from the Q-Table, it's just 6.
 So, what about the alternative estimate?
@@ -80,7 +80,7 @@ plus the currently estimated value of the next state action pair.
 
     ![image3]
 
-- In the algorithm, the number of episodes the agent collects is equal to **num_episodes**. 
+- In the algorithm, the number of episodes the agent collects is equal to **num_episodes**.
 - For every time step **t ≥ 0**, the agent:
     - takes the action **A<sub>t</sub>** (from the current state **S<sub>t</sub>**) that is **ϵ**-greedy with respect to the Q-table,
     - receives the reward **R<sub>t+1</sub>** and next state **S<sub>t+1</sub>**,
@@ -122,7 +122,7 @@ plus the currently estimated value of the next state action pair.
     ![image9]
 
 
-## TD Control: Theory and Practice <a name="TD_control_theory_practice"></a> 
+## TD Control: Theory and Practice <a name="TD_control_theory_practice"></a>
 ### Greedy in the Limit with Infinite Exploration (GLIE)
 - The Greedy in the Limit with Infinite Exploration (GLIE) conditions were introduced in the previous lesson, when we learned about MC control. There are many ways to satisfy the GLIE conditions, all of which involve gradually decaying the value of ϵ\epsilonϵ when constructing ϵ\epsilonϵ-greedy policies.
 
@@ -150,9 +150,9 @@ plus the currently estimated value of the next state action pair.
     - [3, 0] as the start at bottom-left
     - [3, 11] as the goal at bottom-right
     - [3, 1..10] as the cliff at bottom-center
-- Each time step incurs -1 reward, and stepping into the cliff incurs -100 reward and a reset to the start. 
+- Each time step incurs -1 reward, and stepping into the cliff incurs -100 reward and a reset to the start.
 - An episode terminates when the agent reaches the goal.
-- Please read about the cliff-walking task in Example 6.6 of the [Reinforcement Learning Textbook](https://s3-us-west-1.amazonaws.com/udacity-drlnd/bookdraft2018.pdf). 
+- Please read about the cliff-walking task in Example 6.6 of the [Reinforcement Learning Textbook](https://s3-us-west-1.amazonaws.com/udacity-drlnd/bookdraft2018.pdf).
 - Learn more about the environment in its corresponding [GitHub file](https://github.com/openai/gym/blob/master/gym/envs/toy_text/cliffwalking.py)
 
     ![image11]
@@ -193,8 +193,8 @@ plus the currently estimated value of the next state action pair.
     ### Update Q
     ```
     def update_Q(Qsa, Qsa_next, reward, alpha, gamma):
-        """ Updates the action-value function estimate using the most recent time step 
-            
+        """ Updates the action-value function estimate using the most recent time step
+
             INPUTS:
             ------------
                 Qsa - (float) action-value function for s_t, a_t
@@ -202,7 +202,7 @@ plus the currently estimated value of the next state action pair.
                 reward - (int) reward for t+1
                 alpha - (float) step-size parameter for the update step (constant alpha concept)
                 gamma - (float) discount rate. It must be a value between 0 and 1, inclusive (default value: 1)
-                
+
             OUTPUTS:
             ------------
                 Qsa_update (float) updated action-value function for s_t, a_t
@@ -214,19 +214,19 @@ plus the currently estimated value of the next state action pair.
     ### Get epsilon greeed probabilities
     ```
     def epsilon_greedy_probs(env, Q_s, i_episode, eps=None):
-        """ Obtains the action probabilities corresponding to epsilon-greedy policy 
-            
+        """ Obtains the action probabilities corresponding to epsilon-greedy policy
+
             INPUTS:
             ------------
                 env - (OpenAI gym instance) instance of an OpenAI Gym environment
                 Q_s - (one-dimensional numpy array of floats) action value function for all four actions
                 i_episode - (int) episode number
                 eps - (float or None) if not None epsilon is constant
-            
+
             OUTPUTS:
             ------------
                 policy_s - (one-dimensional numpy array of floats) probability for all four actions, to get the most likely action
-        
+
         """
         epsilon = 1.0 / i_episode
         if eps is not None:
@@ -239,17 +239,17 @@ plus the currently estimated value of the next state action pair.
     ```
     def sarsa(env, num_episodes, alpha, gamma=1.0):
         """ TD Control: Sarsa
-                
+
             INPUTS:
             ------------
                 env - (OpenAI gym instance) instance of an OpenAI Gym environment
                 num_episodes -(int) number of episodes that are generated through agent-environment interaction
                 alpha - (float) step-size parameter for the update step (constant alpha concept)
                 gamma - (float) discount rate. It must be a value between 0 and 1, inclusive (default value: 1)
-                
+
             OUTPUTS:
             ------------
-                Q - (dictionary of one-dimensional numpy arrays) where Q[s][a] is the UPDATED estimated action value 
+                Q - (dictionary of one-dimensional numpy arrays) where Q[s][a] is the UPDATED estimated action value
                     corresponding to state s and action a
         """
         # initialize action-value function (empty dictionary of arrays)
@@ -264,7 +264,7 @@ plus the currently estimated value of the next state action pair.
             if i_episode % 100 == 0:
                 print("\rEpisode {}/{}".format(i_episode, num_episodes), end="")
                 sys.stdout.flush()   
-            
+
             # initialize score
             score = 0
             # begin an episode, observe S
@@ -285,7 +285,7 @@ plus the currently estimated value of the next state action pair.
                     # pick next action A'
                     next_action = np.random.choice(np.arange(env.nA), p=policy_s)
                     # update TD estimate of Q
-                    Q[state][action] = update_Q(Q[state][action], Q[next_state][next_action], 
+                    Q[state][action] = update_Q(Q[state][action], Q[next_state][next_action],
                                                 reward, alpha, gamma)
                     # S <- S'
                     state = next_state
@@ -299,7 +299,7 @@ plus the currently estimated value of the next state action pair.
                     break
             if (i_episode % plot_every == 0):
                 scores.append(np.mean(tmp_scores))
-                
+
         # plot performance
         plt.plot(np.linspace(0,num_episodes,len(scores),endpoint=False), np.asarray(scores))
         plt.xlabel('Episode Number')
@@ -330,17 +330,17 @@ plus the currently estimated value of the next state action pair.
     def q_learning(env, num_episodes, alpha, gamma=1.0):
         # initialize empty dictionary of arrays
         """ TD Control: Sarsamax (Q-learning)
-                
+
             INPUTS:
             ------------
                 env - (OpenAI gym instance) instance of an OpenAI Gym environment
                 num_episodes -(int) number of episodes that are generated through agent-environment interaction
                 alpha - (float) step-size parameter for the update step (constant alpha concept)
                 gamma - (float) discount rate. It must be a value between 0 and 1, inclusive (default value: 1)
-                
+
             OUTPUTS:
             ------------
-                Q - (dictionary of one-dimensional numpy arrays) where Q[s][a] is the UPDATED estimated action value 
+                Q - (dictionary of one-dimensional numpy arrays) where Q[s][a] is the UPDATED estimated action value
                     corresponding to state s and action a
         """
         # initialize action-value function (empty dictionary of arrays)
@@ -355,7 +355,7 @@ plus the currently estimated value of the next state action pair.
             if i_episode % 100 == 0:
                 print("\rEpisode {}/{}".format(i_episode, num_episodes), end="")
                 sys.stdout.flush()   
-            
+
             # initialize score
             score = 0
             # begin an episode, observe S
@@ -370,7 +370,7 @@ plus the currently estimated value of the next state action pair.
                 # add reward to score
                 score += reward
                 # update TD estimate of Q
-                Q[state][action] = update_Q(Q[state][action], np.max(Q[next_state]), 
+                Q[state][action] = update_Q(Q[state][action], np.max(Q[next_state]),
                                             reward, alpha, gamma)
                 # S <- S'
                 state = next_state
@@ -381,7 +381,7 @@ plus the currently estimated value of the next state action pair.
                     break
             if (i_episode % plot_every == 0):
                 scores.append(np.mean(tmp_scores))
-                
+
         # plot performance
         plt.plot(np.linspace(0,num_episodes,len(scores),endpoint=False), np.asarray(scores))
         plt.xlabel('Episode Number')
@@ -411,17 +411,17 @@ plus the currently estimated value of the next state action pair.
     def expected_sarsa(env, num_episodes, alpha, gamma=1.0):
         # initialize empty dictionary of arrays
         """ TD Control: Expected Sarsa
-                
+
             INPUTS:
             ------------
                 env - (OpenAI gym instance) instance of an OpenAI Gym environment
                 num_episodes -(int) number of episodes that are generated through agent-environment interaction
                 alpha - (float) step-size parameter for the update step (constant alpha concept)
                 gamma - (float) discount rate. It must be a value between 0 and 1, inclusive (default value: 1)
-                
+
             OUTPUTS:
             ------------
-                Q - (dictionary of one-dimensional numpy arrays) where Q[s][a] is the UPDATED estimated action value 
+                Q - (dictionary of one-dimensional numpy arrays) where Q[s][a] is the UPDATED estimated action value
                     corresponding to state s and action a
         """
         # initialize action-value function (empty dictionary of arrays)
@@ -436,7 +436,7 @@ plus the currently estimated value of the next state action pair.
             if i_episode % 100 == 0:
                 print("\rEpisode {}/{}".format(i_episode, num_episodes), end="")
                 sys.stdout.flush()   
-            
+
             # initialize score
             score = 0
             # begin an episode, observe S
@@ -453,7 +453,7 @@ plus the currently estimated value of the next state action pair.
                 # get epsilon-greedy action probabilities (for S')
                 policy_s = epsilon_greedy_probs(env, Q[next_state], i_episode, 0.005)
                 # update TD estimate of Q
-                Q[state][action] = update_Q(Q[state][action], np.dot(policy_s,Q[next_state]), 
+                Q[state][action] = update_Q(Q[state][action], np.dot(policy_s,Q[next_state]),
                                             reward, alpha, gamma)
                 # S <- S'
                 state = next_state
@@ -464,7 +464,7 @@ plus the currently estimated value of the next state action pair.
                     break
             if (i_episode % plot_every == 0):
                 scores.append(np.mean(tmp_scores))
-                
+
         # plot performance
         plt.plot(np.linspace(0,num_episodes,len(scores),endpoint=False), np.asarray(scores))
         plt.xlabel('Episode Number')
@@ -568,7 +568,7 @@ $ conda env list
 ```
 
 ## Acknowledgments <a name="Acknowledgments"></a>
-* This project is part of the Udacity Nanodegree program 'Data Science'. Please check this [link](https://www.udacity.com) for more information.
+* This project is part of the Udacity Nanodegree program 'Deep Reinforcement Learning'. Please check this [link](https://www.udacity.com) for more information.
 
 ## Further Links <a name="Further_Links"></a>
 
@@ -584,9 +584,38 @@ Docstrings, DRY, PEP8
 
 Further Deep Reinforcement Learning References
 * [Very good summary of DQN](https://medium.com/@nisheed/udacity-deep-reinforcement-learning-project-1-navigation-d16b43793af5)
+* [An Introduction to Deep Reinforcement Learning](https://thomassimonini.medium.com/an-introduction-to-deep-reinforcement-learning-17a565999c0c)
+* Helpful medium blog post on policies [Off-policy vs On-Policy vs Offline Reinforcement Learning Demystified!](https://kowshikchilamkurthy.medium.com/off-policy-vs-on-policy-vs-offline-reinforcement-learning-demystified-f7f87e275b48)
+* [Understanding Baseline Techniques for REINFORCE](https://medium.com/@fork.tree.ai/understanding-baseline-techniques-for-reinforce-53a1e2279b57)
 * [Cheatsheet](https://raw.githubusercontent.com/udacity/deep-reinforcement-learning/master/cheatsheet/cheatsheet.pdf)
+* [Reinforcement Learning Cheat Sheet](https://towardsdatascience.com/reinforcement-learning-cheat-sheet-2f9453df7651)
 * [Reinforcement Learning Textbook](https://s3-us-west-1.amazonaws.com/udacity-drlnd/bookdraft2018.pdf)
 * [Reinforcement Learning Textbook - GitHub Repo to Python Examples](https://github.com/ShangtongZhang/reinforcement-learning-an-introduction)
 * [Udacity DRL Github Repository](https://github.com/udacity/deep-reinforcement-learning)
 * [Open AI Gym - Installation Guide](https://github.com/openai/gym#installation)
 * [Deep Reinforcement Learning Nanodegree Links](https://docs.google.com/spreadsheets/d/19jUvEO82qt3itGP3mXRmaoMbVOyE6bLOp5_QwqITzaM/edit#gid=0)
+
+Important publications
+* [2004 Y. Ng et al., Autonomoushelicopterflightviareinforcementlearning --> Inverse Reinforcement Learning](https://people.eecs.berkeley.edu/~jordan/papers/ng-etal03.pdf)
+* [2004 Kohl et al., Policy Gradient Reinforcement Learning for FastQuadrupedal Locomotion --> Policy Gradient Methods](https://www.cs.utexas.edu/~pstone/Papers/bib2html-links/icra04.pdf)
+* [2013-2015, Mnih et al. Human-level control through deep reinforcementlearning --> DQN](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)
+* [2014, Silver et al., Deterministic Policy Gradient Algorithms --> DPG](http://proceedings.mlr.press/v32/silver14.html)
+* [2015, Lillicrap et al., Continuous control with deep reinforcement learning --> DDPG](https://arxiv.org/abs/1509.02971)
+* [2015, Schulman et al, High-Dimensional Continuous Control Using Generalized Advantage Estimation --> GAE](https://arxiv.org/abs/1506.02438)
+* [2016, Schulman et al., Benchmarking Deep Reinforcement Learning for Continuous Control --> TRPO and GAE](https://arxiv.org/abs/1604.06778)
+* [2017, PPO](https://openai.com/blog/openai-baselines-ppo/)
+* [2018, Bart-Maron et al., Distributed Distributional Deterministic Policy Gradients](https://openreview.net/forum?id=SyZipzbCb)
+* [2013, Sergey et al., Guided Policy Search --> GPS](https://graphics.stanford.edu/projects/gpspaper/gps_full.pdf)
+* [2015, van Hasselt et al., Deep Reinforcement Learning with Double Q-learning --> DDQN](https://arxiv.org/abs/1509.06461)
+* [1993, Truhn et al., Issues in Using Function Approximation for Reinforcement Learning](https://www.ri.cmu.edu/pub_files/pub1/thrun_sebastian_1993_1/thrun_sebastian_1993_1.pdf)
+* [2015, Schaul et al., Prioritized Experience Replay --> PER](https://arxiv.org/abs/1511.05952)
+* [2015, Wang et al., Dueling Network Architectures for Deep Reinforcement Learning](https://arxiv.org/abs/1511.06581)
+* [2016, Silver et al., Mastering the game of Go with deep neural networks and tree search](https://www.researchgate.net/publication/292074166_Mastering_the_game_of_Go_with_deep_neural_networks_and_tree_search)
+* [2017, Hessel et al. Rainbow: Combining Improvements in Deep Reinforcement Learning](https://arxiv.org/abs/1710.02298)
+* [2016, Mnih et al., Asynchronous Methods for Deep Reinforcement Learning](https://arxiv.org/abs/1602.01783)
+* [2017, Bellemare et al., A Distributional Perspective on Reinforcement Learning](https://arxiv.org/abs/1707.06887)
+* [2017, Fortunato et al., Noisy Networks for Exploration](https://arxiv.org/abs/1706.10295)
+* [2016, Wang et al., Sample Efficient Actor-Critic with Experience Replay --> ACER](https://arxiv.org/abs/1611.01224)
+* [2017, Lowe et al. Multi-Agent Actor-Critic for MixedCooperative-Competitive Environments](https://papers.nips.cc/paper/2017/file/68a9750337a418a86fe06c1991a1d64c-Paper.pdf)
+* [2017, Silver et al. Mastering the Game of Go without Human Knowledge --> AlphaGo Zero](https://discovery.ucl.ac.uk/id/eprint/10045895/1/agz_unformatted_nature.pdf)
+* [2017, Silver et al., Mastering Chess and Shogi by Self-Play with aGeneral Reinforcement Learning Algorithm --> AlphaZero](https://arxiv.org/pdf/1712.01815.pdf)
