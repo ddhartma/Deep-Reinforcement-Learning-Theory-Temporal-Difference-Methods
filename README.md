@@ -32,11 +32,11 @@
 - [Further Links](#Further_Links)
 
 
-## Introduction <a name="what_is_reinforcement"></a>
+## Introduction <a id="what_is_reinforcement"></a>
 - Reinforcement learning is **learning** what to do — **how to map situations to actions** — so as **to maximize a numerical reward** signal. The learner is not told which actions to take, but instead must discover which actions yield the most reward by trying them. (Sutton and Barto, [Reinforcement Learning: An Introduction](http://incompleteideas.net/book/the-book.html))
 - Deep reinforcement learning refers to approaches where the knowledge is represented with a deep neural network
 
-## Temporal-Difference Methods - Overview <a name="tdm_overview"></a>
+## Temporal-Difference Methods - Overview <a id="tdm_overview"></a>
 - Real life is far from an episodic task
 - Whereas Monte Carlo (MC) prediction methods must wait until the end of an episode to calculate the return and to update the value function estimate, **temporal-difference (TD) methods update the value function after every time step**.
 - For example **chess**: Agent will at every move be able to estimate the probability of winning the game. Monte Carlo instead needs the crah to learn anything.
@@ -44,12 +44,12 @@
 - TD control can be used for continuous and episodic tasks
 - This lesson covers material in Chapter 6 (especially 6.1-6.6) of the [Reinforcement Learning Textbook](https://s3-us-west-1.amazonaws.com/udacity-drlnd/bookdraft2018.pdf).
 
-## TD Control <a name="TD_control"></a>
+## TD Control <a id="TD_control"></a>
 - Remember the Constant-α MC control method:
 
     ![image1]
 
-## TD Control: Sarsa <a name="sarsa"></a>
+## TD Control: Sarsa <a id="sarsa"></a>
 - Now let's update the Q-Table at the same time as the episode is unfolding.
 The idea:
 - The current estimate for the value of selecting ***action right***
@@ -89,7 +89,7 @@ plus the currently estimated value of the next state action pair.
 
 - **Sarsa(0)** (or **Sarsa**) is an **on-policy TD control** method. It is guaranteed to converge to the optimal action-value function **q∗**, as long as the step-size parameter **α** is sufficiently small and **ϵ** is chosen to satisfy the **Greedy in the Limit with Infinite Exploration (GLIE)** conditions.
 
-## TD Control: Sarsamax  (or Q-Learning) <a name="sarsamax"></a>
+## TD Control: Sarsamax  (or Q-Learning) <a id="sarsamax"></a>
 - **Sarsamax** (or **Q-Learning**) is an **off-policy TD control** method. It is guaranteed to converge to the optimal action value function **q∗**, under the same conditions that guarantee convergence of the Sarsa control algorithm.
 
     ![image4]
@@ -105,7 +105,7 @@ plus the currently estimated value of the next state action pair.
 
     ![image5]
 
-## TD Control: Expected Sarsa <a name="expected_sarsa"></a>
+## TD Control: Expected Sarsa <a id="expected_sarsa"></a>
 - Expected Sarsa is an **on-policy TD control** method. It is guaranteed to converge to the optimal action value function **q∗**, under the same conditions that guarantee convergence of Sarsa and Sarsamax.
 
     ![image8]
@@ -122,7 +122,7 @@ plus the currently estimated value of the next state action pair.
     ![image9]
 
 
-## TD Control: Theory and Practice <a name="TD_control_theory_practice"></a>
+## TD Control: Theory and Practice <a id="TD_control_theory_practice"></a>
 ### Greedy in the Limit with Infinite Exploration (GLIE)
 - The Greedy in the Limit with Infinite Exploration (GLIE) conditions were introduced in the previous lesson, when we learned about MC control. There are many ways to satisfy the GLIE conditions, all of which involve gradually decaying the value of ϵ\epsilonϵ when constructing ϵ\epsilonϵ-greedy policies.
 
@@ -145,7 +145,7 @@ plus the currently estimated value of the next state action pair.
 ### Optimism
 - Begin by initializing the values in the Q-table. It has been shown that initializing the estimates to large values can improve performance. For instance, if all of the possible rewards that can be received by the agent are negative, then initializing every estimate in the Q-table to zeros is a good technique. In this case, we refer to the initialized Q-table as **optimistic**, since the action-value estimates are guaranteed to be larger than the true action values.
 
-## OpenAI Gym: CliffWalkingEnv <a name="CliffWalkingEnv"></a>
+## OpenAI Gym: CliffWalkingEnv <a id="CliffWalkingEnv"></a>
 - The CliffWalking environment is a 4x12 gridworld matrix, with (using Numpy matrix indexing):
     - [3, 0] as the start at bottom-left
     - [3, 11] as the goal at bottom-right
@@ -489,7 +489,7 @@ plus the currently estimated value of the next state action pair.
     ```
     ![image16]
 
-## Analyzing Performance <a name="analyze_perform"></a>
+## Analyzing Performance <a id="analyze_perform"></a>
 ### Similarities
 All of the TD control methods we have examined (Sarsa, Sarsamax, Expected Sarsa) converge to the optimal action-value function **q∗** (and so yield the optimal policy **π∗**) if:
 
@@ -511,12 +511,12 @@ As an optional exercise to deepen your understanding, you are encouraged to repr
 - On-policy TD control methods (like Expected Sarsa and Sarsa) have better online performance than off-policy TD control methods (like Q-learning).
 - Expected Sarsa generally achieves better performance than Sarsa.
 
-## Setup Instructions <a name="Setup_Instructions"></a>
+## Setup Instructions <a id="Setup_Instructions"></a>
 The following is a brief set of instructions on setting up a cloned repository.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites: Installation of Python via Anaconda and Command Line Interaface <a name="Prerequisites"></a>
+### Prerequisites: Installation of Python via Anaconda and Command Line Interaface <a id="Prerequisites"></a>
 - Install [Anaconda](https://www.anaconda.com/distribution/). Install Python 3.7 - 64 Bit
 
 - Upgrade Anaconda via
@@ -530,7 +530,7 @@ $ conda upgrade --all
 $ export PATH="/path/to/anaconda/bin:$PATH"
 ```
 
-### Clone the project <a name="Clone_the_project"></a>
+### Clone the project <a id="Clone_the_project"></a>
 - Open your Command Line Interface
 - Change Directory to your project older, e.g. `cd my_github_projects`
 - Clone the Github Project inside this folder with Git Bash (Terminal) via:
@@ -567,10 +567,10 @@ pyspark = 2.4.3
 $ conda env list
 ```
 
-## Acknowledgments <a name="Acknowledgments"></a>
+## Acknowledgments <a id="Acknowledgments"></a>
 * This project is part of the Udacity Nanodegree program 'Deep Reinforcement Learning'. Please check this [link](https://www.udacity.com) for more information.
 
-## Further Links <a name="Further_Links"></a>
+## Further Links <a id="Further_Links"></a>
 
 Git/Github
 * [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html)
